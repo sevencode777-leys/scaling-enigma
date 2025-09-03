@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>آلة حاسبة</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="calculator">
+      <input type="text" id="display" class="display" placeholder="0" readonly />
+      <div class="keys">
+        <button class="key" data-value="7">7</button>
+        <button class="key" data-value="8">8</button>
+        <button class="key" data-value="9">9</button>
+        <button class="key op" data-value="÷">÷</button>
+
+        <button class="key" data-value="4">4</button>
+        <button class="key" data-value="5">5</button>
+        <button class="key" data-value="6">6</button>
+        <button class="key op" data-value="×">×</button>
+
+        <button class="key" data-value="1">1</button>
+        <button class="key" data-value="2">2</button>
+        <button class="key" data-value="3">3</button>
+        <button class="key op" data-value="-">-</button>
+
+        <button class="key action" data-value="C">C</button>
+        <button class="key" data-value="0">0</button>
+        <button class="key" data-value=".">.</button>
+        <button class="key op" data-value="+">+</button>
+
+        <button class="key equals" data-value="=">=</button>
+      </div>
+    </div>
+
+    <script>
+      const display = document.getElementById("display");
+      const keys = document.querySelector(".keys");
+
+      keys.addEventListener("click", (e) => {
+        if (e.target.tagName !== "BUTTON") return;
+        const v = e.target.dataset.value;
+
+        if (v === "C") {
+          display.value = "";
+          return;
+        }
+        if (v === "=") {
+          if (!display.value) return;
+          try {
+            const expr = display.value.replace(/×/g, "*").replace(/÷/g, "/");
+            const result = Function("return " + expr)();
+            display.value = String(result);
+          } catch {
+            display.value = "خطأ";
+          }
+          return;
+        }
+        display.value += v;
+      });
+    </script>
+  </body>
+</html>
